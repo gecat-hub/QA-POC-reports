@@ -1,10 +1,25 @@
 <!doctype html>
-<html>
-  <body>
-    <h1>QA POC Reports</h1>
-    <ul>
-      <li><a href="./dashboard/">Dashboard</a></li>
-      <li><a href="./history/">History</a></li>
-    </ul>
-  </body>
-</html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Autodesk AI QA Reports</title>
+  <style>
+    body{margin:0;background:#0b1020;color:#edf2ff;font:16px/1.5 Inter,system-ui,sans-serif}
+    main{width:min(900px,calc(100% - 32px));margin:0 auto;padding:56px 0}
+    h1{font-size:clamp(34px,6vw,58px);line-height:1.05;margin:0 0 14px}.muted{color:#9eabc7}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:34px}
+    a{display:block;padding:24px;background:#131b2e;border:1px solid #26324d;border-radius:16px;color:#edf2ff;text-decoration:none}
+    a:hover{border-color:#76a9ff}strong{display:block;font-size:22px;margin-bottom:8px}
+    @media(max-width:700px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body><main>
+  <p class="muted">Autodesk Fusion assistant validation</p>
+  <h1>QA Reports</h1>
+  <p class="muted">Public aggregate reports generated from the private QA repository. Raw assistant responses and detailed JSON results are not published.</p>
+  <div class="grid">
+    <a href="./dashboard/"><strong>Quality dashboard</strong><span class="muted">Fixture/MCP and current AVA metrics, category comparison, and audit signals.</span></a>
+    <a href="./history/"><strong>AVA release history</strong><span class="muted">Dated pass rate, executability, and claim-support trends.</span></a>
+  </div>
+</main></body></html>

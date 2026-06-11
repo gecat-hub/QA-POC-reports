@@ -1,10 +1,103 @@
 <!doctype html>
-<html>
-  <body>
-    <h1>QA POC Reports</h1>
-    <ul>
-      <li><a href="./dashboard/">Dashboard</a></li>
-      <li><a href="./history/">History</a></li>
-    </ul>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Autodesk AI QA Dashboard</title>
+  <style>
+    :root { color-scheme: dark; --bg:#0b1020; --panel:#131b2e; --line:#26324d; --text:#edf2ff; --muted:#9eabc7; --cyan:#55d6be; --blue:#76a9ff; --red:#ff7b86; --amber:#ffc857; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:radial-gradient(circle at top right,#172543 0,#0b1020 44%); color:var(--text); font:15px/1.5 Inter,ui-sans-serif,system-ui,sans-serif; }
+    main { width:min(1180px,calc(100% - 32px)); margin:0 auto; padding:42px 0 64px; }
+    header { display:flex; justify-content:space-between; gap:24px; align-items:end; margin-bottom:26px; }
+    h1,h2,h3,p { margin-top:0; }
+    h1 { font-size:clamp(30px,5vw,54px); line-height:1.05; letter-spacing:-.04em; margin-bottom:12px; }
+    h2 { font-size:22px; margin-bottom:16px; }
+    h3 { font-size:17px; margin-bottom:8px; }
+    .eyebrow { color:var(--cyan); font-weight:700; letter-spacing:.14em; text-transform:uppercase; font-size:12px; }
+    .lede,.muted { color:var(--muted); }
+    .stamp { color:var(--muted); text-align:right; white-space:nowrap; font-size:12px; }
+    .grid { display:grid; grid-template-columns:repeat(12,1fr); gap:16px; }
+    .card { background:linear-gradient(145deg,rgba(25,36,61,.95),rgba(17,24,42,.95)); border:1px solid var(--line); border-radius:16px; padding:20px; box-shadow:0 18px 50px rgba(0,0,0,.18); }
+    .metric { grid-column:span 3; min-height:142px; }
+    .metric strong { display:block; font-size:36px; line-height:1; margin:12px 0 8px; }
+    .fixture strong { color:var(--cyan); }
+    .ava strong { color:var(--blue); }
+    .section { margin-top:28px; }
+    .wide { grid-column:span 7; overflow-x:auto; }
+    .side { grid-column:span 5; }
+    .example { grid-column:span 6; }
+    .badge { display:inline-flex; border-radius:999px; padding:4px 9px; font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+    .pass { background:rgba(85,214,190,.14); color:var(--cyan); }
+    .fail { background:rgba(255,123,134,.14); color:var(--red); }
+    .warn { background:rgba(255,200,87,.14); color:var(--amber); }
+    table { width:100%; border-collapse:collapse; }
+    th,td { padding:10px 8px; border-bottom:1px solid var(--line); text-align:left; }
+    th { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.06em; }
+    td:not(:first-child),th:not(:first-child) { text-align:right; }
+    .bar { height:8px; background:#0a0f1d; border-radius:999px; overflow:hidden; margin-top:10px; }
+    .bar span { display:block; height:100%; background:linear-gradient(90deg,var(--blue),var(--cyan)); border-radius:inherit; }
+    blockquote { margin:14px 0 0; padding:14px 16px; border-left:3px solid currentColor; background:rgba(5,9,18,.45); color:var(--muted); border-radius:0 10px 10px 0; }
+    code { color:#c7d8ff; }
+    .delta-negative { color:var(--red); font-weight:700; }
+    .footer { margin-top:28px; color:var(--muted); font-size:12px; }
+    @media (max-width:850px) { .metric,.wide,.side,.example { grid-column:span 12; } header { align-items:start; flex-direction:column; } .stamp { text-align:left; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <div class="eyebrow">Fusion Answer Quality</div>
+      <h1>Autodesk AI QA Dashboard</h1>
+      <p class="lede">Grounding, executability, and regression evidence across the fixture/MCP baseline and Autodesk AVA.</p>
+    </div>
+    <div class="stamp">Generated<br>2026-06-11T17:57:13.932Z</div>
+  </header>
+
+  <section class="grid" aria-label="Key metrics">
+    <article class="card metric fixture"><span class="badge pass">Fixture / MCP</span><strong>40/40</strong><span class="muted">passed</span></article>
+    <article class="card metric ava"><span class="badge pass">AVA revalidated</span><strong>29/30</strong><span class="muted">passed</span></article>
+    <article class="card metric ava"><span class="badge pass">AVA grounded</span><strong>100%</strong><span class="muted">source-supported</span></article>
+    <article class="card metric ava"><span class="badge pass">AVA executable</span><strong>96.7%</strong><span class="muted">actionable</span></article>
+  </section>
+
+  <section class="section grid">
+    <article class="card wide">
+      <div class="eyebrow">Category comparison</div>
+      <h2>Fixture baseline vs AVA</h2>
+      <table>
+        <thead><tr><th>Category</th><th>Tests</th><th>Fixture</th><th>AVA</th><th>Delta</th></tr></thead>
+        <tbody>
+          <tr><td>api</td><td>1</td><td>1</td><td>1</td><td class="">0</td></tr>
+          <tr><td>assemblies</td><td>3</td><td>3</td><td>3</td><td class="">0</td></tr>
+          <tr><td>cam</td><td>4</td><td>4</td><td>3</td><td class="delta-negative">-1</td></tr>
+          <tr><td>export</td><td>5</td><td>5</td><td>5</td><td class="">0</td></tr>
+          <tr><td>modeling</td><td>17</td><td>17</td><td>17</td><td class="">0</td></tr>
+        </tbody>
+      </table>
+    </article>
+    <aside class="card side">
+      <div class="eyebrow">Audit signals</div>
+      <h2>What the score hides</h2>
+      <div><div style="display:flex;justify-content:space-between;gap:12px"><span>Claim support</span><strong>26 unsupported claims</strong></div><div class="bar"><span style="width:86.6%"></span></div></div>
+      <div><div style="display:flex;justify-content:space-between;gap:12px"><span>AVA dataset coverage</span><strong>30 of 40</strong></div><div class="bar"><span style="width:75%"></span></div></div>
+      <div><div style="display:flex;justify-content:space-between;gap:12px"><span>HTML responses</span><strong>24 of 30</strong></div><div class="bar"><span style="width:80%"></span></div></div>
+      <div><div style="display:flex;justify-content:space-between;gap:12px"><span>Regional footers</span><strong>19 removed</strong></div><div class="bar"><span style="width:63.33333333333333%"></span></div></div>
+      <div><div style="display:flex;justify-content:space-between;gap:12px"><span>Agent-offer footers</span><strong>11 removed</strong></div><div class="bar"><span style="width:36.666666666666664%"></span></div></div>
+    </aside>
+  </section>
+
+  <section class="section">
+    <div class="eyebrow">Demo evidence</div>
+    <h2>Failures worth showing</h2>
+    <div class="grid">
+      <article class="card example"><span class="badge fail">Real assistant failure</span><h3>cam-nc-program-hide-notes-001</h3><p>How do I create a Fusion NC Program with operation notes disabled in the post processor?</p><p class="muted">The revalidated answer still fails quality and execution checks.</p><blockquote>Dry-run execution assertions failed</blockquote></article>
+      <article class="card example"><span class="badge warn">Historical validator false negative</span><h3>modeling-cube-001</h3><p>How do I create a 10 mm cube in Fusion?</p><p class="muted">The original literal validator failed this valid workflow; current alternative-aware checks pass it.</p><blockquote>Dry-run execution assertions failed</blockquote></article>
+    </div>
+  </section>
+
+  <p class="footer">Static artifact generated from repository JSON reports. No external scripts, fonts, or network calls.</p>
+</main>
+</body>
 </html>
