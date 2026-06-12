@@ -23,10 +23,14 @@
     .metric strong { display:block; font-size:36px; line-height:1; margin:12px 0 8px; }
     .fixture strong { color:var(--cyan); }
     .ava strong { color:var(--blue); }
+    .hero { grid-column:span 12; display:flex; justify-content:space-between; align-items:center; gap:24px; }
+    .hero strong { display:block; font-size:clamp(38px,7vw,70px); line-height:1; color:var(--blue); }
+    .hero-copy { max-width:720px; }
     .section { margin-top:28px; }
     .wide { grid-column:span 7; overflow-x:auto; }
     .side { grid-column:span 5; }
     .example { grid-column:span 6; }
+    .action { grid-column:span 4; }
     .badge { display:inline-flex; border-radius:999px; padding:4px 9px; font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
     .pass { background:rgba(85,214,190,.14); color:var(--cyan); }
     .fail { background:rgba(255,123,134,.14); color:var(--red); }
@@ -40,8 +44,22 @@
     blockquote { margin:14px 0 0; padding:14px 16px; border-left:3px solid currentColor; background:rgba(5,9,18,.45); color:var(--muted); border-radius:0 10px 10px 0; }
     code { color:#c7d8ff; }
     .delta-negative { color:var(--red); font-weight:700; }
+    .delta-positive { color:var(--cyan); font-weight:700; }
+    .steps { margin:14px 0 0; padding-left:20px; }
+    .steps li { margin:8px 0; }
+    .plain { color:var(--text); font-weight:700; }
+    .answer-link { display:inline-block; margin-top:12px; color:var(--blue); font-weight:700; text-decoration:none; }
+    .answer-link:hover { text-decoration:underline; }
+    .answer-review { grid-column:span 12; scroll-margin-top:20px; }
+    .turn { margin-top:14px; padding:16px; border:1px solid var(--line); border-radius:12px; background:rgba(5,9,18,.35); }
+    .turn-head { display:flex; justify-content:space-between; gap:12px; align-items:center; }
+    .turn-label { font-weight:800; }
+    details { margin-top:14px; }
+    summary { cursor:pointer; color:var(--blue); font-weight:700; }
+    .answer-text { white-space:pre-wrap; overflow-wrap:anywhere; color:var(--text); }
+    .claims { margin:12px 0 0; padding-left:20px; color:var(--muted); }
     .footer { margin-top:28px; color:var(--muted); font-size:12px; }
-    @media (max-width:850px) { .metric,.wide,.side,.example { grid-column:span 12; } header { align-items:start; flex-direction:column; } .stamp { text-align:left; } }
+    @media (max-width:850px) { .metric,.wide,.side,.example,.action { grid-column:span 12; } .hero,header { align-items:start; flex-direction:column; } .stamp { text-align:left; } }
   </style>
 </head>
 <body>
@@ -49,55 +67,228 @@
   <header>
     <div>
       <div class="eyebrow">Fusion Answer Quality</div>
-      <h1>Autodesk AI QA Dashboard</h1>
-      <p class="lede">Grounding, executability, and regression evidence across the fixture/MCP baseline and Autodesk AVA.</p>
+      <h1>QA health report</h1>
+      <p class="lede">A plain-language view of current quality, changes since the previous run, and the BDD work most likely to improve the score.</p>
     </div>
-    <div class="stamp">Generated<br>2026-06-12T16:33:04.925Z</div>
+    <div class="stamp">Generated<br>2026-06-12T22:26:24.076Z</div>
   </header>
 
+  <section class="grid" aria-label="Overall QA status">
+    <article class="card hero">
+      <div class="hero-copy">
+        <span class="badge warn">Improving</span>
+        <h2>1 known quality gap remains</h2>
+        <p class="lede">The latest run passes 96.7% with no detected regression, but the remaining failures still limit release confidence.</p>
+        <p><span class="plain">Current:</span> ava-2026-06-11 (2026-06-11) &nbsp; <span class="plain">Compared with:</span> ava-2026-06-09 (2026-06-09)</p>
+      </div>
+      <div><strong>96.7%</strong><span class="muted">29 of 30 scenarios pass</span></div>
+    </article>
+  </section>
+
+  <section class="section">
+    <div class="eyebrow">What changed</div>
+    <h2>Quality movement since the previous run</h2>
+  </section>
   <section class="grid" aria-label="Key metrics">
-    <article class="card metric fixture"><span class="badge pass">Fixture / MCP</span><strong>40/40</strong><span class="muted">passed</span></article>
-    <article class="card metric ava"><span class="badge pass">AVA revalidated</span><strong>29/30</strong><span class="muted">passed</span></article>
-    <article class="card metric ava"><span class="badge pass">AVA grounded</span><strong>100%</strong><span class="muted">source-supported</span></article>
-    <article class="card metric ava"><span class="badge pass">AVA executable</span><strong>96.7%</strong><span class="muted">actionable</span></article>
+    <article class="card metric"><span class="badge pass">Passing scenarios</span><strong class="delta-positive">+1</strong><span class="muted">29/30 now</span></article>
+    <article class="card metric"><span class="badge warn">Regressions</span><strong class="">0</strong><span class="muted">none detected</span></article>
+    <article class="card metric"><span class="badge pass">Improvements</span><strong class="delta-positive">+1</strong><span class="muted">1 scenario recovered</span></article>
+    <article class="card metric ava"><span class="badge pass">Executable answers</span><strong>96.7%</strong><span class="muted">+3.4 pp</span></article>
   </section>
 
   <section class="section grid">
     <article class="card wide">
-      <div class="eyebrow">Category comparison</div>
-      <h2>Fixture baseline vs AVA</h2>
+      <div class="eyebrow">Change by capability</div>
+      <h2>Previous run vs current run</h2>
       <table>
-        <thead><tr><th>Category</th><th>Tests</th><th>Fixture</th><th>AVA</th><th>Delta</th></tr></thead>
+        <thead><tr><th>Capability</th><th>Scenarios</th><th>Previous</th><th>Current</th><th>Change</th></tr></thead>
         <tbody>
           <tr><td>api</td><td>1</td><td>1</td><td>1</td><td class="">0</td></tr>
           <tr><td>assemblies</td><td>3</td><td>3</td><td>3</td><td class="">0</td></tr>
-          <tr><td>cam</td><td>4</td><td>4</td><td>3</td><td class="delta-negative">-1</td></tr>
+          <tr><td>cam</td><td>4</td><td>3</td><td>3</td><td class="">0</td></tr>
           <tr><td>export</td><td>5</td><td>5</td><td>5</td><td class="">0</td></tr>
-          <tr><td>modeling</td><td>17</td><td>17</td><td>17</td><td class="">0</td></tr>
+          <tr><td>modeling</td><td>17</td><td>16</td><td>17</td><td class="delta-positive">+1</td></tr>
         </tbody>
       </table>
     </article>
     <aside class="card side">
-      <div class="eyebrow">Audit signals</div>
-      <h2>What the score hides</h2>
+      <div class="eyebrow">Confidence in the score</div>
+      <h2>What needs interpretation</h2>
       <div><div style="display:flex;justify-content:space-between;gap:12px"><span>Claim support</span><strong>26 unsupported claims</strong></div><div class="bar"><span style="width:86.6%"></span></div></div>
-      <div><div style="display:flex;justify-content:space-between;gap:12px"><span>AVA dataset coverage</span><strong>30 of 40</strong></div><div class="bar"><span style="width:75%"></span></div></div>
-      <div><div style="display:flex;justify-content:space-between;gap:12px"><span>HTML responses</span><strong>24 of 30</strong></div><div class="bar"><span style="width:80%"></span></div></div>
-      <div><div style="display:flex;justify-content:space-between;gap:12px"><span>Regional footers</span><strong>19 removed</strong></div><div class="bar"><span style="width:63.33333333333333%"></span></div></div>
-      <div><div style="display:flex;justify-content:space-between;gap:12px"><span>Agent-offer footers</span><strong>11 removed</strong></div><div class="bar"><span style="width:36.666666666666664%"></span></div></div>
+      <div><div style="display:flex;justify-content:space-between;gap:12px"><span>Stable comparison coverage</span><strong>30 matched scenarios</strong></div><div class="bar"><span style="width:100%"></span></div></div>
+      <div><div style="display:flex;justify-content:space-between;gap:12px"><span>Grounded answers</span><strong>100% cite relevant evidence</strong></div><div class="bar"><span style="width:100%"></span></div></div>
+      <div><div style="display:flex;justify-content:space-between;gap:12px"><span>First-turn quality</span><strong>0% pass</strong></div><div class="bar"><span style="width:0%"></span></div></div>
+      <p class="muted">“Current” means the latest answer set after applying today’s validators. Older raw and recovery artifacts remain audit evidence, but they are not separate product-quality states.</p>
     </aside>
   </section>
 
   <section class="section">
-    <div class="eyebrow">Demo evidence</div>
-    <h2>Failures worth showing</h2>
+    <div class="eyebrow">BDD improvement plan</div>
+    <h2>Scenarios to add or strengthen next</h2>
     <div class="grid">
-      <article class="card example"><span class="badge fail">Real assistant failure</span><h3>cam-nc-program-hide-notes-001</h3><p>How do I create a Fusion NC Program with operation notes disabled in the post processor?</p><p class="muted">The revalidated answer still fails quality and execution checks.</p><blockquote>Dry-run execution assertions failed</blockquote></article>
-      <article class="card example"><span class="badge warn">Historical validator false negative</span><h3>modeling-cube-001</h3><p>How do I create a 10 mm cube in Fusion?</p><p class="muted">The original literal validator failed this valid workflow; current alternative-aware checks pass it.</p><blockquote>Dry-run execution assertions failed</blockquote></article>
+      <article class="card action"><span class="badge fail">Priority 1</span><h3>cam-nc-program-hide-notes-001</h3><p>How do I create a Fusion NC Program with operation notes disabled in the post processor?</p><p><strong>Ask next:</strong> Same-session follow-up: I am using the CR Onsrud 5-axis Router with Fanuc 31i control post processor, and I do not know which property disables operation notes. Which exact property and value should I use, and how do I verify the posted NC code?</p><ol class="steps"><li><strong>Given</strong> relevant Autodesk evidence and a valid Fusion starting state</li><li><strong>When</strong> the assistant answers this user question</li><li><strong>Then</strong> the answer names the exact commands and settings, gives ordered steps, and includes a verification outcome</li></ol><p class="muted">Current gap: Dry-run execution assertions failed</p><a class="answer-link" href="#answer-cam-nc-program-hide-notes-001">View answer &darr;</a></article>
+      <article class="card action"><span class="badge warn">Cross-cutting</span><h3>Reduce unsupported claims</h3><p>26 technical claims across 15 answer(s) are not directly supported by retrieved evidence.</p><ol class="steps"><li><strong>Given</strong> the top Autodesk sources for the question</li><li><strong>When</strong> a technical claim is included in the answer</li><li><strong>Then</strong> at least one retrieved passage directly supports that claim, or the claim is omitted</li></ol><a class="answer-link" href="#answers-needing-review">Review flagged answers &darr;</a></article>
     </div>
   </section>
 
-  <p class="footer">Static artifact generated from repository JSON reports. No external scripts, fonts, or network calls.</p>
+  <section id="answers-needing-review" class="section">
+    <div class="eyebrow">Answer review</div>
+    <h2>Answers needing review</h2>
+    <p class="lede">These answers either fail a scenario or contain technical claims that are not directly supported by retrieved evidence.</p>
+    <div class="grid">
+      <article id="answer-modeling-fillet-001" class="card answer-review" data-review-start="true"><span class="badge warn">Evidence gap</span><h3>modeling-fillet-001</h3><p>How do I round a solid body edge with a fillet in Fusion?</p><p><strong>Unsupported claims:</strong> 3</p><ul class="claims"><li>In the Fillet dialog, set Type to Fillet (or choose Rule Fillet/Full Round Fillet if those are needed).</li><li>Set the Radius using the radius manipulator in the canvas or by entering an exact value (choose Constant, Chord Length, Variable, or Asymmetric as needed).</li><li>Adjust Continuity (Tangent G1 or Curvature G2) and Corner Type or other options as required.</li></ul><details><summary>Show answer</summary><blockquote class="answer-text">You&#39;re looking to round an edge on a solid in Fusion — here’s how to do it quickly.
+
+1. Click Design &gt; Solid &gt; Modify &gt; Fillet.
+2. In the Fillet dialog, set Type to Fillet (or choose Rule Fillet/Full Round Fillet if those are needed).
+3. In the canvas, select the edge(s) or faces you want to fillet (use Tangent Chain to include tangential edges if desired).
+4. Set the Radius using the radius manipulator in the canvas or by entering an exact value (choose Constant, Chord Length, Variable, or Asymmetric as needed).
+5. Adjust Continuity (Tangent G1 or Curvature G2) and Corner Type or other options as required.
+6. Click OK to apply the fillet.
+
+If you want to fillet only a portion of an edge, create a plane to split the body at the fillet start/end, split the body, apply the fillet to the separated edge portion, then combine bodies if needed.
+
+Relevant help: Use the Fillet tool workflow in Fusion’s Fillet documentation and the “How to set portion of the edge as fillet in Fusion” steps.</blockquote><p class="muted">No follow-up was run for this result.</p></details></article>
+      <article id="answer-modeling-chamfer-001" class="card answer-review"><span class="badge warn">Evidence gap</span><h3>modeling-chamfer-001</h3><p>How do I bevel a solid body edge with an equal-distance chamfer in Fusion?</p><p><strong>Unsupported claims:</strong> 1</p><ul class="claims"><li>If you want an API example for creating an equal-distance chamfer via script, Fusion’s Equal Distance Chamfer Feature API sample shows how to create the ChamferInput and add an equal-distance edge set.</li></ul><details><summary>Show answer</summary><blockquote class="answer-text">You&#39;re ready to add a simple equal-distance chamfer to an edge in Fusion—here&#39;s how.
+
+1. In Fusion, go to Design &gt; Solid &gt; Modify &gt; Chamfer.
+2. In the canvas, select the edge (or edges) you want to bevel; the selection shows in the Chamfer selection box.
+3. In the Chamfer dialog, set Type to Equal Distance and specify the distance value (use the dialog or drag the distance manipulator on the model).
+4. (Optional) Toggle Tangent Chain if you want tangentially connected edges included or excluded.
+5. Click OK to create the chamfer.
+
+If you want an API example for creating an equal-distance chamfer via script, Fusion’s Equal Distance Chamfer Feature API sample shows how to create the ChamferInput and add an equal-distance edge set.</blockquote><p class="muted">No follow-up was run for this result.</p></details></article>
+      <article id="answer-modeling-shell-001" class="card answer-review"><span class="badge warn">Evidence gap</span><h3>modeling-shell-001</h3><p>How do I hollow a solid body with a 2 mm inside shell thickness in Fusion?</p><p><strong>Unsupported claims:</strong> 1</p><ul class="claims"><li>Enter Inside Thickness = 2 mm (leave Outside Thickness blank or zero) and confirm the preview.</li></ul><details><summary>Show answer</summary><blockquote class="answer-text">I can help—here’s how to create a hollow solid with a 2 mm inside wall using Fusion’s Shell tool.
+
+1. In Fusion, open the Design workspace and choose Solid &gt; Modify &gt; Shell.
+2. In the Canvas, select the solid body you want to hollow (or select faces to remove if you need an opening).
+3. In the Shell dialog set Type as needed (Sharp Offset or Rounded Offset) and set Direction to Inside.
+4. Enter Inside Thickness = 2 mm (leave Outside Thickness blank or zero) and confirm the preview.
+5. Click OK to apply; a Shell feature will appear in the Timeline.
+
+That should create a hollowed solid with a 2 mm inside wall. If you need to edit it later, right-click the Shell feature in the Timeline and choose Edit Feature.</blockquote><p class="muted">No follow-up was run for this result.</p></details></article>
+      <article id="answer-modeling-hole-001" class="card answer-review"><span class="badge warn">Evidence gap</span><h3>modeling-hole-001</h3><p>How do I create a 10 mm diameter hole through a solid plate in Fusion?</p><p><strong>Unsupported claims:</strong> 1</p><ul class="claims"><li>Set the hole diameter to 10 mm in the Hole dialog, choose an Extents setting that goes through the plate (e.g., Distance To All or a distance that exceeds plate thickness), and flip direction if required to cut through.</li></ul><details><summary>Show answer</summary><blockquote class="answer-text">I can help with that — here’s how to create a 10 mm diameter hole through a solid plate in Fusion.
+
+1. Create or select the solid plate body and open a sketch on the face where the hole will start. Place a sketch point at the desired location and dimension it as needed.
+2. Finish the sketch.
+3. Start the Hole command (Design &gt; Solid &gt; Create &gt; Hole).
+4. In Placement select From Sketch and pick the sketch point (or use At Point for a single hole).
+5. Set the hole diameter to 10 mm in the Hole dialog, choose an Extents setting that goes through the plate (e.g., Distance To All or a distance that exceeds plate thickness), and flip direction if required to cut through.
+6. Confirm settings (type, depth/manipulator) and click OK to create the hole.
+
+Relevant help: the Fusion help topics for creating a hole and placing holes from a sketch cover these steps.</blockquote><p class="muted">No follow-up was run for this result.</p></details></article>
+      <article id="answer-modeling-rectangular-pattern-001" class="card answer-review"><span class="badge warn">Evidence gap</span><h3>modeling-rectangular-pattern-001</h3><p>How do I create a three-instance rectangular pattern of a solid feature in Fusion?</p><p><strong>Unsupported claims:</strong> 3</p><ul class="claims"><li>You can do this in Fusion using the Rectangular Pattern tool.</li><li>For Axis 1, select a linear edge/axis/sketch line to define the direction, set Quantity to 3, and set the Distance and Distance Type (Extent or Spacing) as required.</li><li>For Axis 2, set Quantity to 1 (so the pattern is only along one direction) and leave Distance as needed.</li></ul><details><summary>Show answer</summary><blockquote class="answer-text">You can do this in Fusion using the Rectangular Pattern tool. 1. In Design workspace, choose Create &gt; Pattern &gt; Rectangular Pattern. 2. Set Object Type to Features (or Bodies if your solid is a body) and select the feature (or body) to pattern from the canvas or the Timeline. 3. For Axis 1, select a linear edge/axis/sketch line to define the direction, set Quantity to 3, and set the Distance and Distance Type (Extent or Spacing) as required. 4. For Axis 2, set Quantity to 1 (so the pattern is only along one direction) and leave Distance as needed. 5. (Optional) If Object Type = Features, choose a Compute Type (Optimized, Identical, or Adjust) then click OK to create the rectangular pattern. That should produce three instances of the feature in a rectangular pattern.</blockquote><p class="muted">No follow-up was run for this result.</p></details></article>
+      <article id="answer-modeling-mirror-001" class="card answer-review"><span class="badge warn">Evidence gap</span><h3>modeling-mirror-001</h3><p>How do I mirror a solid body across a construction plane in Fusion?</p><p><strong>Unsupported claims:</strong> 1</p><ul class="claims"><li>Choose Create &gt; Mirror.</li></ul><details><summary>Show answer</summary><blockquote class="answer-text">I can help — here’s how to mirror a solid body across a construction plane in Fusion.
+
+1. Switch to the Design workspace and open the Solid tab.
+2. Choose Create &gt; Mirror.
+3. In the Mirror dialog set Type to Bodies.
+4. In the canvas or browser, select the solid body you want to mirror.
+5. In the dialog click Mirror Plane and then select the construction plane to mirror across.
+6. Choose an Operation (New Body to create a separate mirrored body or Join to combine with the original if they intersect), then click OK.
+
+That should produce the mirrored solid across your construction plane; tell me if you want steps for creating or positioning the construction plane first.</blockquote><p class="muted">No follow-up was run for this result.</p></details></article>
+      <article id="answer-modeling-loft-001" class="card answer-review"><span class="badge warn">Evidence gap</span><h3>modeling-loft-001</h3><p>How do I create a solid loft between two sketch profiles on separate planes in Fusion?</p><p><strong>Unsupported claims:</strong> 2</p><ul class="claims"><li>In the Loft dialog set end conditions/continuity for the start and end profiles (e.g., Connected, Direction/G0, Tangent/G1, Curvature/G2) and optionally add rails or a centerline if you need more control.</li><li>(Optional) On the Analysis tab choose Zebra/Curvature Map/Isocurve to inspect surface curvature, then click OK to create the lofted solid.</li></ul><details><summary>Show answer</summary><blockquote class="answer-text">You&#39;re creating a solid loft between two sketches on separate planes — here’s a concise Fusion workflow to do that.
+
+1. Create the two sketches (profiles) on their separate planes and finish each sketch.
+2. In the toolbar go to Solid &gt; Create &gt; Loft.
+3. In the canvas select the first sketch profile, then select the second sketch profile (ensure profiles are selected in the desired order).
+4. In the Loft dialog set end conditions/continuity for the start and end profiles (e.g., Connected, Direction/G0, Tangent/G1, Curvature/G2) and optionally add rails or a centerline if you need more control.
+5. Choose Operation = New Body (or New Component if you want a new component) and adjust Tangent Edges (Merge or Keep) as needed.
+6. (Optional) On the Analysis tab choose Zebra/Curvature Map/Isocurve to inspect surface curvature, then click OK to create the lofted solid.
+
+Helpful Fusion help: Solid &gt; Create &gt; Loft (Loft reference) and Loft a solid body.</blockquote><p class="muted">No follow-up was run for this result.</p></details></article>
+      <article id="answer-modeling-scale-001" class="card answer-review"><span class="badge warn">Evidence gap</span><h3>modeling-scale-001</h3><p>How do I uniformly scale a solid body by a factor of two in Fusion?</p><p><strong>Unsupported claims:</strong> 2</p><ul class="claims"><li>Pick a fixed anchor (base) point for the scaling.</li><li>In the Scale Type choose Uniform and set the Scale Factor to 2.</li></ul><details><summary>Show answer</summary><blockquote class="answer-text">You&#39;re looking to double a solid body&#39;s size in Fusion — here&#39;s how to do that with the Scale tool.
+
+1. In the Design workspace, go to the Solid tab and choose Modify &gt; Scale.
+2. Select the solid body you want to scale.
+3. Pick a fixed anchor (base) point for the scaling.
+4. In the Scale Type choose Uniform and set the Scale Factor to 2.
+5. Click OK to apply the change.
+
+That will uniformly scale the selected solid body by a factor of two. If you need steps for multiple bodies or editing the feature later, I can add those.</blockquote><p class="muted">No follow-up was run for this result.</p></details></article>
+      <article id="answer-export-stl-001" class="card answer-review"><span class="badge warn">Evidence gap</span><h3>export-stl-001</h3><p>How can I export a selected Fusion body as an STL file?</p><p><strong>Unsupported claims:</strong> 1</p><ul class="claims"><li>Navigate to the save location, enter a filename, and click Save.</li></ul><details><summary>Show answer</summary><blockquote class="answer-text">You&#39;re looking to export a selected Fusion body as an STL — here’s a quick workflow using Fusion terms.
+
+1. In the Design workspace, locate the body in the Browser (Bodies folder).
+2. Right-click the body or the parent component containing the body.
+3. Choose Save As Mesh (or Save as STL where shown).
+4. In the Save As Mesh dialog, set Format to STL (Binary or ASCII), choose Unit Type and Structure (One File or One Body Per File) if applicable, then click OK/Save.
+5. Navigate to the save location, enter a filename, and click Save.
+
+Would you like steps for exporting multiple bodies or using the 3D Print command instead?</blockquote><p class="muted">No follow-up was run for this result.</p></details></article>
+      <article id="answer-export-step-001" class="card answer-review"><span class="badge warn">Evidence gap</span><h3>export-step-001</h3><p>How do I export a Fusion solid design as a STEP file?</p><p><strong>Unsupported claims:</strong> 2</p><ul class="claims"><li>Specify a local export location (click the three-dot icon) and click Export.</li><li>If the design uses components that exported with no solid bodies, drag each body back to the root component (top browser entry) or disable the component function in the timeline, then validate/repair the body (Inspect &gt; Validate, enable Repair) and re-export.</li></ul><details><summary>Show answer</summary><blockquote class="answer-text">Here’s how to export a Fusion solid design as a STEP file:
+
+1. In Fusion, open the design you want to export and choose File &gt; Export.
+2. In the Export dialog, set Type to “STEP Files (.stp .step)”.
+3. For a configured design, switch the design type in the Export dialog from “Configured Design” to “Active configuration” so STEP is offered.
+4. Specify a local export location (click the three-dot icon) and click Export.
+5. If the design uses components that exported with no solid bodies, drag each body back to the root component (top browser entry) or disable the component function in the timeline, then validate/repair the body (Inspect &gt; Validate, enable Repair) and re-export.
+
+Would you like steps for exporting from Fusion Team in a browser as well?</blockquote><p class="muted">No follow-up was run for this result.</p></details></article>
+      <article id="answer-export-iges-001" class="card answer-review"><span class="badge warn">Evidence gap</span><h3>export-iges-001</h3><p>How do I export a Fusion solid design as an IGES file?</p><p><strong>Unsupported claims:</strong> 1</p><ul class="claims"><li>Specify the local export location by clicking the three-dot icon and enter a filename.</li></ul><details><summary>Show answer</summary><blockquote class="answer-text">1. In Fusion, open the design you want to export (make sure the root component or the active component contains the solid geometry).
+2. Choose File &gt; Export.
+3. In the Export dialog, set Type to IGES (select .igs or .iges).
+4. Specify the local export location by clicking the three-dot icon and enter a filename.
+5. Click Export to write the IGES (.igs/.iges) file.</blockquote><p class="muted">No follow-up was run for this result.</p></details></article>
+      <article id="answer-export-dxf-sketch-001" class="card answer-review"><span class="badge warn">Evidence gap</span><h3>export-dxf-sketch-001</h3><p>How do I export a Fusion sketch as a DXF file?</p><p><strong>Unsupported claims:</strong> 2</p><ul class="claims"><li>In the Export DXF dialog, select the unit type (the design’s active units are the default) and optionally check Visible Geometry options (Points, Projected Geometry, Construction Geometry).</li><li>In the Save dialog, enter a file name, choose the location (or save to a Fusion project), and click Save.</li></ul><details><summary>Show answer</summary><blockquote class="answer-text">I can help — here’s how to export a sketch as a DXF from Autodesk Fusion.
+
+1. Open the design that contains the sketch you want to export.
+2. In the Browser, locate the sketch and right‑click the sketch name.
+3. Choose “Export DXF.”
+4. In the Export DXF dialog, select the unit type (the design’s active units are the default) and optionally check Visible Geometry options (Points, Projected Geometry, Construction Geometry). Click OK.
+5. In the Save dialog, enter a file name, choose the location (or save to a Fusion project), and click Save.
+
+That should export your sketch to a DXF file; if you need to include edges from a body for laser cutting, create the sketch on the top or bottom face so the face edges are projected into the sketch.</blockquote><p class="muted">No follow-up was run for this result.</p></details></article>
+      <article id="answer-export-joint-components-001" class="card answer-review"><span class="badge warn">Evidence gap</span><h3>export-joint-components-001</h3><p>How do I export two Fusion solid models as STEP files for reuse in an assembly?</p><p><strong>Unsupported claims:</strong> 2</p><ul class="claims"><li>Repeat steps 2–3 for the second solid/component.</li><li>Once exported locally, import or insert those STEP files into your target assembly as needed.</li></ul><details><summary>Show answer</summary><blockquote class="answer-text">You&#39;re looking to export two Fusion solid models as STEP files so they can be reused in an assembly — here’s a concise Fusion-only workflow.
+
+Prerequisites
+Make both bodies/components visible and decide whether you want each exported as a component (recommended) or as bodies.
+
+1. If the solids are bodies inside a component, create separate components for each solid by right-clicking a body and choosing Create Components from Bodies (or drag each body to the root component to convert to bodies in the root, then make components as needed).
+2. Right-click the component you want to export in the browser tree and choose Export (or use Save Copy As if you want a Fusion design copy).
+3. In the Export dialog set Type to STEP Files (.STEP/.STP) and choose a local folder as the export location.
+4. Repeat steps 2–3 for the second solid/component.
+5. Once exported locally, import or insert those STEP files into your target assembly as needed.
+
+Expected outcome: each solid will be saved as a separate .STEP file that you can bring into an assembly.
+
+Would you like the exact menu path for converting bodies to components in your current design?</blockquote><p class="muted">No follow-up was run for this result.</p></details></article>
+      <article id="answer-import-joint-components-001" class="card answer-review"><span class="badge warn">Evidence gap</span><h3>import-joint-components-001</h3><p>How do I import two STEP models into Fusion as separate visible components?</p><p><strong>Unsupported claims:</strong> 1</p><ul class="claims"><li>Click the blue Upload button and upload the first STEP file; repeat to upload the second STEP file.</li></ul><details><summary>Show answer</summary><blockquote class="answer-text">You&#39;re asking how to bring two STEP files into Fusion as separate visible components — here&#39;s a direct Fusion workflow.
+
+Import each STEP as its own component
+1. Open Fusion and the Data Panel. Click the blue Upload button and upload the first STEP file; repeat to upload the second STEP file.
+2. After upload, open the first uploaded file from the Data Panel — it will open as a design with its component(s) visible in the Browser.
+3. Save that design (it becomes a Fusion design in your data). Close it, then open the second uploaded STEP the same way so it becomes its own Fusion design/component set.
+4. To combine them into one design while keeping them as separate components: open one design, then use Insert -&gt; Insert into Current Design (or Insert Derivative) to place the other design; the inserted model appears as a separate component in the Browser and is visible in the graphics window.
+5. Ensure visibility by expanding the Browser and toggling the light bulb for each component so both components’ bodies are visible.
+
+Expected outcome: both STEP models appear as distinct components in the Browser and are visible in the graphics window.
+
+Would you like step-by-step notes for positioning or jointing the inserted component?</blockquote><p class="muted">No follow-up was run for this result.</p></details></article>
+      <article id="answer-cam-nc-program-hide-notes-001" class="card answer-review"><span class="badge fail">Failed scenario</span><h3>cam-nc-program-hide-notes-001</h3><p>How do I create a Fusion NC Program with operation notes disabled in the post processor?</p><p><strong>Why flagged:</strong> Dry-run execution assertions failed</p><details open><summary>Show answer</summary><blockquote class="answer-text">You can disable operation notes when creating an NC Program by adjusting the post properties before posting: 1. In Manufacture &gt; Setup, select the setup or operations you want to output and open NC Program. 2. In the NC Program dialog, choose the desired post processor from the Post pull-down (or enable Use machine configuration if using a machine). 3. Go to the Post properties section and locate the option that controls job header/comments or operation notes (this varies by post processor) and disable it or clear the comment fields. 4. On the Settings/Program area, verify Comment is empty (or edit the post properties so comments are not included). 5. Click Post to generate the NC program; if desired, open the NC file in the editor to confirm operation notes are not present. 6. If the post processor lacks that option, turn off Use machine configuration and select or edit a post processor that exposes comment/notes controls, or use a different post that omits operation notes.
+
+Relevant Help topics: NC Program reference; Post processing; Post Process opens the NC Program dialog in Fusion 360.</blockquote><p class="muted">No follow-up was run for this result.</p></details></article>
+      <article id="answer-api-script-001" class="card answer-review"><span class="badge warn">Evidence gap</span><h3>api-script-001</h3><p>Where should I look for Fusion API objects and methods for automation scripts?</p><p><strong>Unsupported claims:</strong> 3</p><ul class="claims"><li>Select any object to view its description, the list of methods, properties, events, derived objects, and samples that show how it’s used.</li><li>Select a specific method, property, or event to see language-specific call examples, argument descriptions, return values, and sample programs.</li><li>Use the help system’s search field (or Google indexing of the help site) if you need to quickly locate a particular object, method, or example.</li></ul><details><summary>Show answer</summary><blockquote class="answer-text">You&#39;re on the right track wanting to find the API objects and methods for automation in Fusion — the Reference Manual is where to go.
+
+1. Open the Fusion API Reference Manual (Reference Manual) in the Fusion Help.
+2. Expand the table of contents and open the “Objects” topic to see an alphabetical list of all API objects.
+3. Select any object to view its description, the list of methods, properties, events, derived objects, and samples that show how it’s used.
+4. Select a specific method, property, or event to see language-specific call examples, argument descriptions, return values, and sample programs.
+5. Use the help system’s search field (or Google indexing of the help site) if you need to quickly locate a particular object, method, or example.
+
+If you want, tell me which object or automation task you’re targeting and I’ll point to the exact object/topic to open.</blockquote><p class="muted">No follow-up was run for this result.</p></details></article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="eyebrow">Evidence</div>
+    <h2>Why the score changed</h2>
+    <div class="grid">
+      <article class="card example"><span class="badge fail">Current quality gap</span><h3>cam-nc-program-hide-notes-001</h3><p>How do I create a Fusion NC Program with operation notes disabled in the post processor?</p><p class="muted">This scenario still fails in the latest assessed run and is the first BDD priority.</p><blockquote>Dry-run execution assertions failed</blockquote></article>
+      <article class="card example"><span class="badge warn">Validator correction</span><h3>modeling-cube-001</h3><p>How do I create a 10 mm cube in Fusion?</p><p class="muted">This answer did not change. The score changed because the validator learned to accept a valid alternative workflow.</p><blockquote>Dry-run execution assertions failed</blockquote></article>
+    </div>
+  </section>
+
+  <p class="footer">Self-contained HTML generated from the latest summary, scenario results, and trend report. Detailed JSON remains available for audit and CI.</p>
 </main>
 </body>
 </html>
