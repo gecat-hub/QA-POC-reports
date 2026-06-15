@@ -70,7 +70,7 @@
       <h1>QA health report</h1>
       <p class="lede">A plain-language view of current quality, changes since the previous run, and the BDD work most likely to improve the score.</p>
     </div>
-    <div class="stamp">Generated<br>2026-06-15T14:47:28.682Z</div>
+    <div class="stamp">Generated<br>2026-06-15T14:56:58.090Z</div>
   </header>
 
   <section class="grid" aria-label="Overall QA status">
@@ -264,9 +264,59 @@ Import each STEP as its own component
 Expected outcome: both STEP models appear as distinct components in the Browser and are visible in the graphics window.
 
 Would you like step-by-step notes for positioning or jointing the inserted component?</blockquote><p class="muted">No follow-up was run for this result.</p></details></article>
-      <article id="answer-cam-nc-program-hide-notes-001" class="card answer-review"><span class="badge fail">Failed scenario</span><h3>cam-nc-program-hide-notes-001</h3><p>How do I create a Fusion NC Program with operation notes disabled in the post processor?</p><p><strong>Why flagged:</strong> Dry-run execution assertions failed</p><details open><summary>Show answer</summary><blockquote class="answer-text">You can disable operation notes when creating an NC Program by adjusting the post properties before posting: 1. In Manufacture &gt; Setup, select the setup or operations you want to output and open NC Program. 2. In the NC Program dialog, choose the desired post processor from the Post pull-down (or enable Use machine configuration if using a machine). 3. Go to the Post properties section and locate the option that controls job header/comments or operation notes (this varies by post processor) and disable it or clear the comment fields. 4. On the Settings/Program area, verify Comment is empty (or edit the post properties so comments are not included). 5. Click Post to generate the NC program; if desired, open the NC file in the editor to confirm operation notes are not present. 6. If the post processor lacks that option, turn off Use machine configuration and select or edit a post processor that exposes comment/notes controls, or use a different post that omits operation notes.
+      <article id="answer-cam-nc-program-hide-notes-001" class="card answer-review"><span class="badge fail">Failed scenario</span><h3>cam-nc-program-hide-notes-001</h3><p>How do I create a Fusion NC Program with operation notes disabled in the post processor?</p><p><strong>Why flagged:</strong> Dry-run execution assertions failed</p><details open><summary>Show conversation (3 turns)</summary><div class="turn"><div class="turn-head"><span class="turn-label">Turn 1</span><span class="badge pass">Selected answer</span></div><p><strong>Question:</strong></p><blockquote class="answer-text">You are answering for Autodesk Fusion only.
+Product: Autodesk Fusion
+QA category: cam
+Expected Fusion terms: Fusion, NC Program, NC code, cam, nc, notes, operation notes, post process, post processor, post properties
 
-Relevant Help topics: NC Program reference; Post processing; Post Process opens the NC Program dialog in Fusion 360.</blockquote><p class="muted">No follow-up was run for this result.</p></details></article>
+Question:
+How do I create a Fusion NC Program with operation notes disabled in the post processor?
+
+Answer requirements:
+- Use Autodesk Fusion terminology only.
+- Do not give generic CAD/CAM advice.
+- Return 3-6 concrete numbered steps when the task is procedural.
+- Include only Autodesk Fusion Help links that directly support this exact workflow.
+- If the question lacks required Fusion context, state the missing context instead of escalating to an agent.
+</blockquote><p><strong>Answer:</strong></p><blockquote class="answer-text">I can help—here’s how to create an NC Program with operation notes disabled in Fusion NC Program settings.
+
+Prerequisites
+- Have a Setup with the operations you want to post and a post processor selected or a machine configured.
+
+1. In Manufacture, select the Setup or the individual operations you want to include and choose NC Program (Post Process).
+2. In the NC Program dialog, on the Settings (or Program) tab, ensure the correct post processor is selected (or enable Use machine configuration if using a machine).
+3. Open the Post properties panel in the NC Program dialog (this panel shows the post processor conditional switches).
+4. Locate the option controlling operation/operation notes output (look for a setting related to operation notes, job header comments, or include operation comments) and toggle it off—this disables writing operation notes into the NC code.
+5. Confirm other program fields (Name/number, File name, Output folder) then click Post to generate the NC Program without operation notes.
+
+Would you like the NC Program help topic and Post Process overview links for these steps?</blockquote><p class="muted"><strong>Validation:</strong> Dry-run execution assertions failed</p></div><div class="turn"><div class="turn-head"><span class="turn-label">Turn 2 · Follow-up</span></div><p><strong>Question:</strong></p><blockquote class="answer-text">I need one specific clarification for my original question: How do I create a Fusion NC Program with operation notes disabled in the post processor?
+I am using the CR Onsrud 5-axis Router with Fanuc 31i control post processor.
+I do not know which post property disables operation notes.
+Property names can differ between post processors.
+The missing detail is: Dry-run execution assertions failed.
+What exact property name and value should I use, and how can I verify the result?</blockquote><p><strong>Answer:</strong></p><blockquote class="answer-text">I can help—here’s how to disable operation notes for your CR Onsrud 5‑axis Router with the Fanuc 31i post and verify it in Fusion.
+
+Prerequisites
+Prerequisites
+- A Setup with the operations to post and the Fanuc 31i post selected for the CR Onsrud machine.
+
+Steps
+1. Open Manufacture, select the Setup (or operations) and choose NC Program (Post Process).
+2. In the NC Program dialog ensure the selected Post is the Fanuc 31i for your CR Onsrud machine (or deselect “Use machine configuration” to pick the post manually).
+3. Click the Post properties button in the NC Program dialog to open the post processor switches.
+4. Find and set the post property that controls operation/operation notes output. In Fusion post properties this is commonly named something like writeOperationNotes, includeOperationComments, operationNotes, or includeComments. Set that property to false (or turn the switch off).
+5. Confirm program name/number and click Post.
+
+Verify success
+- Open the generated NC file and confirm there are no per‑operation comments or notes (no comment blocks preceding operations).
+- Alternatively, re-open the NC Program Post dialog and confirm the property in Post properties remains set to false.
+
+If the exact property name above is not present in your Fanuc 31i post, export the post properties list from the Post properties panel and look for any property containing the words “operation”, “note”, or “comment” and set it to false/off. Do you want me to list the Post properties visible in your current dialog so you can pick the exact name?</blockquote><p class="muted"><strong>Validation:</strong> Dry-run execution assertions failed</p></div><div class="turn"><div class="turn-head"><span class="turn-label">Turn 3 · Follow-up</span></div><p><strong>Question:</strong></p><blockquote class="answer-text">One more clarification for: How do I create a Fusion NC Program with operation notes disabled in the post processor?
+I am using the CR Onsrud 5-axis Router with Fanuc 31i control post processor.
+I do not know which post property disables operation notes.
+Property names can differ between post processors.
+Remaining validation gap: Dry-run execution assertions failed.
+Please provide the exact missing Fusion setting or command and one way to verify it.</blockquote><p><strong>Answer:</strong></p><blockquote class="answer-text">Based on the information you provided, you might find this content helpful.</blockquote><p class="muted"><strong>Validation:</strong> Dry-run execution assertions failed</p></div></details></article>
       <article id="answer-api-script-001" class="card answer-review"><span class="badge warn">Evidence gap</span><h3>api-script-001</h3><p>Where should I look for Fusion API objects and methods for automation scripts?</p><p><strong>Unsupported claims:</strong> 3</p><ul class="claims"><li>Select any object to view its description, the list of methods, properties, events, derived objects, and samples that show how it’s used.</li><li>Select a specific method, property, or event to see language-specific call examples, argument descriptions, return values, and sample programs.</li><li>Use the help system’s search field (or Google indexing of the help site) if you need to quickly locate a particular object, method, or example.</li></ul><details><summary>Show answer</summary><blockquote class="answer-text">You&#39;re on the right track wanting to find the API objects and methods for automation in Fusion — the Reference Manual is where to go.
 
 1. Open the Fusion API Reference Manual (Reference Manual) in the Fusion Help.
